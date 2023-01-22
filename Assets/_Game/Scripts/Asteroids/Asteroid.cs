@@ -1,6 +1,8 @@
 using DefaultNamespace.ScriptableEvents;
 using UnityEngine;
 using Variables;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 using Random = UnityEngine.Random;
 
 namespace Asteroids
@@ -8,15 +10,14 @@ namespace Asteroids
     [RequireComponent(typeof(Rigidbody2D))]
     public class Asteroid : MonoBehaviour
     {
+        [Header("Asteroid Type")]
+        [SerializeField] private BaseAsteroid _asteroidData;
+
+        [Header("Logistics")]
         [SerializeField] private ScriptableEventInt _onAsteroidDestroyed;
-        
-        [Header("Config:")]
-        [SerializeField] private float _minForce;
-        [SerializeField] private float _maxForce;
-        [SerializeField] private float _minSize;
-        [SerializeField] private float _maxSize;
-        [SerializeField] private float _minTorque;
-        [SerializeField] private float _maxTorque;
+
+        [SerializeField] private SpriteRenderer _asteroidSprite;
+        [SerializeField] private Color _asteroidColor;
 
         [Header("References:")]
         [SerializeField] private Transform _shape;
@@ -28,12 +29,32 @@ namespace Asteroids
         private void Start()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
+            _asteroidSprite = GetComponentInChildren<SpriteRenderer>();
             _instanceId = GetInstanceID();
+
+            LoadAsteroid();
             
             SetDirection();
             AddForce();
             AddTorque();
             SetSize();
+        }
+
+        public void LoadAsteroid()
+        {
+            if (!Directory.Exists(Application.persistentDataPath + "/saved_asteroids/asteroid_data"))
+            {
+                Directory.CreateDirectory(Application.persistentDataPath + "/saved_asteroids/asteroid_data");
+            }
+            BinaryFormatter bf = new BinaryFormatter();
+            if (File.Exists(Application.persistentDataPath + "/saved_asteroids/asteroid_data/asteroid.txt"))
+            {
+                FileStream file = File.Open(Application.persistentDataPath + "/saved_asteroids/asteroid_data/asteroid.txt", FileMode.Open);
+                JsonUtility.FromJsonOverwrite((string)bf.Deserialize(file), _asteroidData);
+                _asteroidSprite.sprite = _asteroidData.asteroidSprite;
+                _asteroidSprite.color = _asteroidData.asteroidColor;
+                file.Close();
+            }
         }
         
         private void OnTriggerEnter2D(Collider2D other)
@@ -72,8 +93,8 @@ namespace Asteroids
             var size = new Vector2(3f, 3f);
             var target = new Vector3
             (
-                Random.Range(-size.x, size.x),
-                Random.Range(-size.y, size.y)
+                Random.Range(-_asteroidData._asteroidSize.x, _asteroidData._asteroidSize.x),
+                Random.Range(-_asteroidData._asteroidSize.y, _asteroidData._asteroidSize.y)
             );
 
             _direction = (target - transform.position).normalized;
@@ -81,24 +102,24 @@ namespace Asteroids
 
         private void AddForce()
         {
-            var force = Random.Range(_minForce, _maxForce);
+            var force = Random.Range(_asteroidData._asteroidMinForce, _asteroidData._asteroidMaxForce);
             _rigidbody.AddForce( _direction * force, ForceMode2D.Impulse);
         }
 
         private void AddTorque()
         {
-            var torque = Random.Range(_minTorque, _maxTorque);
+            var torque = Random.Range(_asteroidData._asteroidMinTorque, _asteroidData._asteroidMaxTorque);
             var roll = Random.Range(0, 2);
 
             if (roll == 0)
                 torque = -torque;
             
-            _rigidbody.AddTorque(torque, ForceMode2D.Impulse);
+            _rigidbody.AddTorque(_asteroidData._asteroidTorque, ForceMode2D.Impulse);
         }
 
         private void SetSize()
         {
-            var size = Random.Range(_minSize, _maxSize);
+            var size = Random.Range(_asteroidData._asteroidMinSize, _asteroidData._asteroidMaxSize);
             _shape.localScale = new Vector3(size, size, 0f);
         }
     }

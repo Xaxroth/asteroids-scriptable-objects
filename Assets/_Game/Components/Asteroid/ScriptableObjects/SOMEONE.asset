@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 045bf23b2e0a00647b187c07b8ccadd1, type: 3}
+  m_Name: SOMEONE
+  m_EditorClassIdentifier: 
+  _asteroidForce: 0
+  _asteroidMinForce: 1
+  _asteroidMaxForce: 100
+  _asteroidSize: {x: 0, y: 0}
+  _asteroidMinSize: 0.1
+  _asteroidMaxSize: 2
+  _asteroidTorque: 0
+  _asteroidMinTorque: 1
+  _asteroidMaxTorque: 100
+  asteroidColor: {r: 255, g: 255, b: 255, a: 255}
+  asteroidSprite: {fileID: 0}

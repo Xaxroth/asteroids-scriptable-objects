@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1524412162417054026}
   m_Father: {fileID: 0}
@@ -45,13 +46,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 017c14a0b2ceaec4191b684dfd17404f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _asteroidData: {fileID: 11400000, guid: b4c9a9831e866bd44a6ea1e74f762e77, type: 2}
   _onAsteroidDestroyed: {fileID: 11400000, guid: 6194a1f60d68f9f4da5519ce74b63a58, type: 2}
-  _minForce: 2
-  _maxForce: 6
-  _minSize: 0.2
-  _maxSize: 1
-  _minTorque: 0.1
-  _maxTorque: 0.5
+  _asteroidSprite: {fileID: 0}
+  _asteroidColor: {r: 0, g: 0, b: 0, a: 0}
   _shape: {fileID: 1524412162417054026}
 --- !u!50 &1784223117350305362
 Rigidbody2D:
@@ -103,6 +101,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1524412162417054026}
   m_RootOrder: 0
@@ -131,6 +130,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -213,6 +213,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3169066251457290625}
   m_Father: {fileID: 1784223117350305365}
